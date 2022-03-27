@@ -13,12 +13,10 @@ class ApiClient:
             self.url
         )
 
-    def post_create_store(self, name: str) -> Response:
+    def post_create_store(self, body: dict = None) -> Response:
         return requests.post(
             f'{self.url}/store',
-            json={
-                'name': name
-            }
+            json=body
         )
 
     def get_store(self, name: str) -> Response:
@@ -31,16 +29,16 @@ class ApiClient:
             f'{self.url}/store'
         )
 
-    def post_create_item(self, store_name: str, name: str, price: float) -> Response:
+    def post_create_item(self, store_name: str, body: dict = None) -> Response:
         return requests.post(
             f'{self.url}/store/{store_name}/item',
-            json={
-                'name': name,
-                'price': price
-            }
+            json=body
         )
 
     def get_items(self, store_name: str) -> Response:
         return requests.get(
             f'{self.url}/store/{store_name}/item'
         )
+
+
+api_client = ApiClient()
