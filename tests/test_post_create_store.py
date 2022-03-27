@@ -9,7 +9,7 @@ def test_post_create_store_201():
         'items': []
     }
 
-    response = api_client.post_create_store(body={'name': name})
+    response = api_client.post_create_store(name=name)
 
     assert response.status_code == 201
     assert response.json() == exp_response
