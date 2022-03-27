@@ -7,6 +7,8 @@ authors = ["Roman Pylypenko <rpylypenko@aligntech.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Flask = "^2.0.3"
+requests = "^2.27.1"
+pytest = "^7.1.1"
 
 [tool.poetry.dev-dependencies]
 
