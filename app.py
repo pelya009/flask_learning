@@ -1,15 +1,17 @@
-from flask import Flask, request
-from flask_restful import Api, Resource
+from flask import Flask
+from flask_jwt import JWT
+from flask_restful import Api
+
+from resources.item import Item, ItemList
+from resources.user import UserRegister
+from security import authenticate, identity
+
 
 app = Flask(__name__)
+app.secret_key = 'foobar'
 api = Api(app)
 
-items = [
-    {
-        'name': 'lambo',
-        'price': 500.0
-    }
-]
+jwt = JWT(app, authenticate, identity)
 
 
 @app.route('/', methods=['GET'])
@@ -17,33 +19,10 @@ def home():
     return 'Hello, world!'
 
 
-class Item(Resource):
-
-    def get(self, name):
-        item = next(filter(lambda _item: _item['name'] == name, items), None)
-        return {'item': item}, 200 if item else 404
-
-    def post(self, name):
-        if next(filter(lambda _item: _item['name'] == name, items), None):
-            return {'message': f'Item with name: {name} already exists'}, 400
-
-        data = request.get_json()
-        item = {
-            'name': name,
-            'price': data['price']
-        }
-        items.append(item)
-        return item, 201
-
-
-class ItemList(Resource):
-
-    def get(self):
-        return {'items': items}
-
-
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
+api.add_resource(UserRegister, '/register')
 
 
-app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
