@@ -13,10 +13,9 @@ class ApiClient:
             self.url
         )
 
-    def post_create_store(self, body: dict = None) -> Response:
+    def post_create_store(self, name: str) -> Response:
         return requests.post(
-            f'{self.url}/store',
-            json=body
+            f'{self.url}/store/{name}'
         )
 
     def get_store(self, name: str) -> Response:
