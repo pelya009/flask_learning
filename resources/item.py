@@ -26,10 +26,8 @@ class Item(Resource):
 
         if row:
             return {
-                'item': {
-                    'name': row[0],
-                    'price': row[1]
-                }
+                'name': row[0],
+                'price': row[1]
             }
 
     @classmethod
@@ -56,7 +54,7 @@ class Item(Resource):
         item = self.find_by_name(name)
         if item:
             return item, 200
-        return {'message': f'Item with name: {name} not found'}, 400
+        return {'message': f'Item with name: {name} not found'}, 404
 
     @jwt_required()
     def post(self, name):

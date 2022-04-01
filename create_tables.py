@@ -1,33 +1,39 @@
 import sqlite3
 
-connection = sqlite3.connect('data.db')
-cursor = connection.cursor()
 
-create_table = 'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, password text)'
-cursor.execute(create_table)
+def prepare_db():
+    connection = sqlite3.connect('data.db')
+    cursor = connection.cursor()
 
-insert_query = 'INSERT INTO users VALUES (NULL, ?, ?)'
+    create_table = 'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, password text)'
+    cursor.execute(create_table)
 
-users = [
-    ('admin', 'admin'),
-    ('roman', 'pelya'),
-    ('taya', 'yagoza')
-]
+    insert_query = 'INSERT INTO users VALUES (NULL, ?, ?)'
 
-cursor.executemany(insert_query, users)
+    users = [
+        ('admin', 'admin'),
+        ('roman', 'pelya'),
+        ('taya', 'yagoza')
+    ]
 
-create_table = 'CREATE TABLE IF NOT EXISTS items (name text, price real)'
-cursor.execute(create_table)
+    cursor.executemany(insert_query, users)
 
-insert_query = 'INSERT INTO items VALUES (?, ?)'
+    create_table = 'CREATE TABLE IF NOT EXISTS items (name text, price real)'
+    cursor.execute(create_table)
 
-items = [
-    ('ferrari', 500.0),
-    ('porshe', 367.7),
-    ('mclaren', 124.45)
-]
+    insert_query = 'INSERT INTO items VALUES (?, ?)'
 
-cursor.executemany(insert_query, items)
+    items = [
+        ('lambo', 500.0),
+        ('porshe', 367.7),
+        ('mclaren', 124.45)
+    ]
 
-connection.commit()
-connection.close()
+    cursor.executemany(insert_query, items)
+
+    connection.commit()
+    connection.close()
+
+
+if __name__ == '__main__':
+    prepare_db()
