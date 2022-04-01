@@ -1,4 +1,4 @@
-from utils.api_client import api_client
+from tests.utils.api_client import api_client
 
 
 def test_get_home_200():
