@@ -19,7 +19,16 @@ class ApiClient:
 
     def get_access_token(self, username: str = 'admin', password: str = 'admin'):
         return requests.post(
-            f'{self.url}/auth',
+            f'{self.url}/login',
+            json={
+                "username": username,
+                "password": password
+            }
+        )
+
+    def register(self, username: str = 'admin', password: str = 'admin'):
+        return requests.post(
+            f'{self.url}/register',
             json={
                 "username": username,
                 "password": password
