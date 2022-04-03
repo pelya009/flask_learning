@@ -1,16 +1,12 @@
+import os
 import pytest
 import subprocess
 import time
 
+from psutil import Process
 from requests.exceptions import ConnectionError
 
-from create_tables import prepare_db
 from tests.utils.api_client import api_client
-
-
-@pytest.fixture(scope='session', autouse=True)
-def create_tables():
-    prepare_db()
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -35,6 +31,8 @@ def run_app():
             raise Exception('App not started')
 
     yield process
-    process.terminate()
-    process.kill()
-    print(process.pid)
+    parent = Process(process.pid)
+    for child in parent.children(recursive=True):
+        child.kill()
+    parent.kill()
+    os.remove('data.db')

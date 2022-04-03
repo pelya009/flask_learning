@@ -68,5 +68,29 @@ class ApiClient:
             headers=headers
         )
 
+    def get_stores(self) -> Response:
+        return requests.get(
+            f'{self.url}/stores'
+        )
+
+    def get_store(self, name: str) -> Response:
+        return requests.get(
+            f'{self.url}/store/{name}'
+        )
+
+    def post_create_store(self, name: str = None) -> Response:
+        headers = self._get_token_header()
+        return requests.post(
+            f'{self.url}/store/{name}',
+            headers=headers
+        )
+
+    def delete_store(self, name: str = None) -> Response:
+        headers = self._get_token_header()
+        return requests.delete(
+            f'{self.url}/store/{name}',
+            headers=headers
+        )
+
 
 api_client = ApiClient()

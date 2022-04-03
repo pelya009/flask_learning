@@ -9,7 +9,10 @@ def test_put_update_item_200():
         'price': 99.99
     }
 
-    response = api_client.put_update_item(name=name, body={'price': exp_response['price']})
+    response = api_client.put_update_item(
+        name=name,
+        body={'price': exp_response['price'], 'store_id': 1}
+    )
 
     assert response.status_code == 200
     assert response.json() == exp_response
@@ -23,7 +26,10 @@ def test_put_update_item_200():
         'price': 11.11
     }
 
-    response = api_client.put_update_item(name=name, body={'price': new_exp_response['price']})
+    response = api_client.put_update_item(
+        name=name,
+        body={'price': new_exp_response['price'], 'store_id': 1}
+    )
 
     assert response.status_code == 200
     assert response.json() == new_exp_response
