@@ -8,9 +8,9 @@ class ApiClient:
     def __init__(self):
         self.url = 'http://127.0.0.1:5000'
 
-    def _get_token_header(self):
-        token = self.get_access_token().json()['access_token']
-        return {'Authorization': f'JWT {token}'}
+    def _get_token_header(self, username: str = 'admin', password: str = 'admin'):
+        token = self.get_access_token(username, password).json()['access_token']
+        return {'Authorization': f'Bearer {token}'}
 
     def get_home(self) -> Response:
         return requests.get(
@@ -35,9 +35,18 @@ class ApiClient:
             }
         )
 
-    def get_items(self) -> Response:
+    def delete_user(self, user_id: int = None, username: str = 'admin', password: str = 'admin') -> Response:
+        headers = self._get_token_header(username, password)
+        return requests.delete(
+            f'{self.url}/user/{user_id}',
+            headers=headers
+        )
+
+    def get_items(self, username: str = 'admin', password: str = 'admin') -> Response:
+        headers = self._get_token_header(username, password)
         return requests.get(
-            f'{self.url}/items'
+            f'{self.url}/items',
+            headers=headers
         )
 
     def get_item(self, name: str) -> Response:
@@ -68,9 +77,11 @@ class ApiClient:
             headers=headers
         )
 
-    def get_stores(self) -> Response:
+    def get_stores(self, username: str = 'admin', password: str = 'admin') -> Response:
+        headers = self._get_token_header(username, password)
         return requests.get(
-            f'{self.url}/stores'
+            f'{self.url}/stores',
+            headers=headers
         )
 
     def get_store(self, name: str) -> Response:
