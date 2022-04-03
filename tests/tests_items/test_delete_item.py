@@ -9,7 +9,10 @@ def test_delete_item_200():
         'price': 99.99
     }
 
-    response = api_client.post_create_item(name=exp_response['name'], body={'price': exp_response['price']})
+    response = api_client.post_create_item(
+        name=exp_response['name'],
+        body={'price': exp_response['price'], 'store_id': 1}
+    )
     assert response.status_code == 201
 
     response = api_client.delete_item(name=name)
@@ -21,4 +24,4 @@ def test_delete_item_404():
 
     response = api_client.delete_item(name=name)
     assert response.status_code == 404
-    assert response.json()['message'] == f'Item with name: {name} not found'
+    assert response.json()['message'] == f'Item with name: "{name}" not found'

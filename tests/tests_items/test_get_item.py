@@ -18,4 +18,4 @@ def test_get_item_404():
 
     response = api_client.get_item(name=name)
     assert response.status_code == 404
-    assert response.json()['message'] == f'Item with name: {name} not found'
+    assert response.json()['message'] == f'Item with name: "{name}" not found'
